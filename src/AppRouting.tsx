@@ -1,22 +1,45 @@
-import {lazy} from 'react'
-import { Routes,Route,useLocation,
-  useNavigate} from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { lazy } from "react";
+import { Routes, Route } from "react-router-dom";
 
-const HeaderComponent = lazy(() => import('./components/header/Header').
-    then(({ Header }) => ({ default: Header })));
-const LoginComponent = lazy(() => import('./components/loginScreen/loginContainer/LoginContainer').
-    then(({ LoginContainer }) => ({ default: LoginContainer })));
+const ProductComponent = lazy(() =>
+  import("./components/product/productListContainer/ProductListContainer").then(
+    ({ ProductListContainer }) => ({ default: ProductListContainer })
+  )
+);
+const ProductDetailComponent = lazy(() =>
+  import("./components/product/productFormContainer/ProductFormContainer").then(
+    ({ ProductFormContainer }) => ({ default: ProductFormContainer })
+  )
+);
+const CartComponent = lazy(() =>
+  import(
+    "./components/product/productFormContainer/addToCartPresentation/AddToCartPresentation"
+  ).then(({ AddToCartPresentation }) => ({ default: AddToCartPresentation }))
+);
+const UserProfileComponent = lazy(() =>
+  import(
+    "./components/userProfile/userProfileFormContainer/UserProfileFormContainer"
+  ).then(({ UserProfileFormContainer }) => ({
+    default: UserProfileFormContainer,
+  }))
+);
 
-const AppRouting = (props:any) => {
-  let navigate = useNavigate();
-  const location = useLocation();
+const AppRouting = (props: any) => {
+  const { isAuthenticated } = useAuth0();
   return (
-    <div>
+    <>
+      <Routes>
+        <Route path="/" element={<ProductComponent />} />
+        <Route path="/details/:id" element={<ProductDetailComponent />} />
+      </Routes>
+      {isAuthenticated && (
         <Routes>
-            <Route  path="/" element={<LoginComponent navigate={navigate} location={location}/>}/>
-            <Route   path="/ProductList" element={<HeaderComponent/>}/>
+          <Route path="/cart" element={<CartComponent />} />
+          <Route path="/userProfile" element={<UserProfileComponent />} />
         </Routes>
-    </div>
+      )}
+    </>
   );
 };
 export default AppRouting;
