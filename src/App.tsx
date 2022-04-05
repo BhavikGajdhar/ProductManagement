@@ -47,7 +47,7 @@ function App(props: any) {
                 }}
                 spinner={<ClipLoader color={"grey"} size={50} />}
               />
-              <Header />
+              {/* <Header /> */}
               <AppRouting />
             </AddToCart>
           </Router>

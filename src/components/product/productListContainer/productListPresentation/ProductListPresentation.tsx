@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { debounce } from "lodash";
 
@@ -26,8 +25,8 @@ const ProductListPresentation = (props: any) => {
         />
       </div>
       <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-10 py-6 gap-8 bg-gray-100 flex-grow overflow-y-auto">
-        {props.Values &&
-          props.Values.map((product: any) => {
+        {props.Values.data &&
+          props.Values.data.map((product: any) => {
             return (
                 <Link key={product.id} to={`/details/${product.id}`}>
                   <div className="bg-white shadow-lg transition-all flex flex-col px-8 py-3 rounded-lg cursor-pointer h-full">

@@ -23,9 +23,10 @@ export const Header = (props: any) => {
           <Link to={`/cart`}>
             <div className="cart relative">
               <span className="bg-sky-300 px-2 py-1 py rounded-full text-xs absolute left-5 -top-2">
-                <CartContext.Consumer>
+                {/* <CartContext.Consumer>
                   {(value) => <h1>{value}</h1>}
-                </CartContext.Consumer>
+                </CartContext.Consumer> */}
+                {props.value}
               </span>
               <img className="w-8" src={Cart} />
             </div>

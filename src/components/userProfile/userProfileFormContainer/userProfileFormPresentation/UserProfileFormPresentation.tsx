@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { getUser, updateUser } from "../../service/UserProfileService";
+import { getUser } from "../../service/UserProfileService";
 
 export const ValidationSchema = Yup.object().shape({
   firstName: Yup.string().trim().required("FirstName is required").nullable(),
@@ -21,7 +20,6 @@ const UserProfileFormPresentation = (props: any) => {
   };
   const [profile, setProfile] = useState<any>(profileValue);
   const [disable] = useState<any>(true);
-  let navigate = useNavigate();
 
   const profileValueSet = {
     firstName: profile.firstName,
@@ -37,8 +35,7 @@ const UserProfileFormPresentation = (props: any) => {
   }, []);
   const handleSubmit = (values: any) => {
     if (values.id) {
-      updateUser(values.id, values);
-      navigate(`/`);
+      props.updateUser(values);
     }
   };
 

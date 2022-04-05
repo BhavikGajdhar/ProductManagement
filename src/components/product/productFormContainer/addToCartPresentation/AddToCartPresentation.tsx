@@ -1,7 +1,4 @@
-import { type } from "@testing-library/user-event/dist/type";
-import { values } from "lodash";
-import React, { useEffect, useState, createContext } from "react";
-import AddToCart, { CartContext } from "../../../header/AddToCart";
+import { useEffect, useState } from "react";
 import { Header } from "../../../header/Header";
 import {
   deleteAddToCartData,
@@ -11,10 +8,8 @@ import {
 // export  const CartContext = React.createContext(0);
 
 const AddToCartPresentation = (props: any) => {
-  
   const [addCart, setAddToCat] = useState<any>();
   const [addValue, setValue] = useState<any>();
-  const contextType = CartContext;
   useEffect(() => {
     getAddToCartData().then((res: any) => {
       setAddToCat(res.data);
@@ -32,6 +27,8 @@ const AddToCartPresentation = (props: any) => {
     });
   };
   return (
+    <>
+    <Header value={addValue}/> 
     <div className="px-10 py-5 w-full h-full bg-gray-100 flex-grow overflow-y-auto">
       <h1 className="text-2xl font-bold">Your cart</h1>
       {addCart &&
@@ -50,22 +47,17 @@ const AddToCartPresentation = (props: any) => {
                   <p className="pt-6">${item.price}</p>
                 </div>
               </div>
-              <CartContext.Consumer>
-                  {(value:any) => (
-                    <button
-                    onClick={() => removeFromCartHandler(item.id)}
-                    className="bg-red-500 px-3 py-1 text-white rounded mx-6"
-                  >
-                    Remove
-                  </button>
-                  )}
-                  
-                </CartContext.Consumer>
-              
+              <button
+                onClick={() => removeFromCartHandler(item.id)}
+                className="bg-red-500 px-3 py-1 text-white rounded mx-6"
+              >
+                Remove
+              </button>
             </div>
           );
         })}
     </div>
+    </>
   );
 };
 export { AddToCartPresentation };
