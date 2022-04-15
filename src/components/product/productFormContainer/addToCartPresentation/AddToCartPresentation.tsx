@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Header } from "../../../header/Header";
+import AddToCart from "../../../header/AddToCart";
 import {
   deleteAddToCartData,
   getAddToCartData,
@@ -28,7 +28,7 @@ const AddToCartPresentation = (props: any) => {
   };
   return (
     <>
-    <Header value={addValue}/> 
+    <AddToCart cartValue={addValue}/> 
     <div className="px-10 py-5 w-full h-full bg-gray-100 flex-grow overflow-y-auto">
       <h1 className="text-2xl font-bold">Your cart</h1>
       {addCart &&

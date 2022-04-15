@@ -7,17 +7,23 @@ import {
 } from "../service/ProductService";
 import ProductFormPresentation from "./productFormPresentation/ProductFormPresentation";
 import { useNavigate } from "react-router-dom";
-import { Header } from "../../header/Header";
+import AddToCart from "../../header/AddToCart";
 
 const ProductFormContainer = (props: any) => {
+
   let navigate = useNavigate();
 
+  /** Store the data of product detail */
   const [productDetail, setProductDetail] = useState<any>();
+
+  /** addToCart length value  */
   const [value, setValue] = useState<any>();
 
   const { id } = useParams();
+
   useEffect(() => {
     if (id) {
+    /** GetById API Called */  
       getProductDataByID(parseInt(id as string))
         .then((res: any) => {
           setProductDetail(res.data);
@@ -26,6 +32,7 @@ const ProductFormContainer = (props: any) => {
           alert(error);
         });
     }
+    /** addToCard get a length API Called */
     getAddToCartData()
       .then((res: any) => {
         setValue(res.data.length);
@@ -34,6 +41,8 @@ const ProductFormContainer = (props: any) => {
         alert(error);
       });
   }, []);
+
+  /** addToCard post API Called */
   const cartDataDetails = (value: any) => {
     addToCartData(value)
       .then((res: any) => {
@@ -42,6 +51,7 @@ const ProductFormContainer = (props: any) => {
       .catch((error) => {
         alert("Already Added Cart");
       });
+  /** addToCard get a length API Called  */    
     getAddToCartData()
       .then((res: any) => {
         setValue(res.data.length);
@@ -53,7 +63,7 @@ const ProductFormContainer = (props: any) => {
   };
   return (
     <div>
-      <Header value={value}></Header>
+      <AddToCart cartValue={value}/>
       <ProductFormPresentation
         detailsValue={productDetail}
         addToCartHandler={cartDataDetails}

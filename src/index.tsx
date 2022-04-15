@@ -14,9 +14,9 @@ ReactDOM.render(
       cacheLocation="localstorage"
       useRefreshTokens={true}
   >
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <App />
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </Auth0Provider>,
   document.getElementById('root')
 );

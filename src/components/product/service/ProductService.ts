@@ -5,7 +5,7 @@ import axios from "axios";
   };
 
   export const searchGetProductData = (value:any) => {
-    return axios.get(`http://localhost:4500/products?q=${value}`);
+    return axios.get(`http://localhost:4500/products?q=${value}&name=${value}`);
   };
 
   export const getProductDataByID=(id:number)=>{

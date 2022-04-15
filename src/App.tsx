@@ -1,6 +1,5 @@
 import React, { Suspense, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import AppRouting from "./AppRouting";
 import LoadingOverlay from "react-loading-overlay-ts";
 import { useRoutes } from "react-router-dom";
@@ -13,7 +12,7 @@ import AuthInterceptor, {
 import { AppContextType } from "./components/core/auth.model";
 import AppContext from "./components/core/AuthInterceptor/AppContext";
 
-function App(props: any) {
+function App() {
   const [showLoader, setShowLoader] = useState<boolean>(false);
   const sampleAppContext: AppContextType = {
     setShowLoader: setShowLoader,
@@ -28,28 +27,26 @@ function App(props: any) {
       <AppContext.Provider value={sampleAppContext}>
         <AuthInterceptor>
           <Router>
-            <AddToCart>
-              <LoadingOverlay
-                // className="flex flex-col flex-grow overflow-hidden"
-                active={showLoader}
-                styles={{
-                  wrapper: {},
-                  overlay: (base) => ({
-                    ...base,
-                    background: "rgba(0, 0, 0, 0.1)",
-                  }),
-                  content: {
-                    display: "block",
-                    margin: " auto",
-                    overflow: "hidden",
-                  },
-                  spinner: {},
-                }}
-                spinner={<ClipLoader color={"grey"} size={50} />}
-              />
-              {/* <Header /> */}
-              <AppRouting />
-            </AddToCart>
+            <LoadingOverlay
+              // className="flex flex-col flex-grow overflow-hidden"
+              active={showLoader}
+              styles={{
+                wrapper: {},
+                overlay: (base) => ({
+                  ...base,
+                  background: "rgba(0, 0, 0, 0.1)",
+                }),
+                content: {
+                  display: "block",
+                  margin: " auto",
+                  overflow: "hidden",
+                },
+                spinner: {},
+              }}
+              spinner={<ClipLoader color={"grey"} size={50} />}
+            />
+            {/* <Header /> */}
+            <AppRouting />
           </Router>
         </AuthInterceptor>
       </AppContext.Provider>
@@ -58,6 +55,3 @@ function App(props: any) {
 }
 
 export default App;
-function useSelector(arg0: (state: any) => any) {
-  throw new Error("Function not implemented.");
-}

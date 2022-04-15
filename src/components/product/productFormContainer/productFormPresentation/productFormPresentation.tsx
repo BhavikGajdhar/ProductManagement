@@ -1,7 +1,27 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+import {
+  ProductFormPresenter,
+  addToCart,
+} from "../productFormPresenter/ProductFormPresenter";
 
 const ProductFormPresentation = (props: any) => {
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+
+  /** Auth0 method used parameter */
+  const { isAuthenticated, loginWithPopup } = useAuth0();
+
+  useEffect(() => {
+  /** subscribe the asObservable value pass to  props of formContainer */
+    ProductFormPresenter.addToCartData$().subscribe((res) => {
+      props.addToCartHandler(res);
+      console.log(res);
+    });
+  }, []);
+
+  /** addToCart value passed to presenter */
+  const addToCartValue = (detailsValue: any) => {
+    addToCart(detailsValue);
+  };
   return (
     <>
       {props.detailsValue && (
@@ -19,14 +39,14 @@ const ProductFormPresentation = (props: any) => {
             </p>
             {isAuthenticated ? (
               <button
-                onClick={() => props.addToCartHandler(props.detailsValue)}
+                onClick={() => addToCartValue(props.detailsValue)}
                 className="bg-red-500 my-6 px-3 py-2 rounded-md text-white"
               >
                 Add to Cart
               </button>
             ) : (
               <button
-                onClick={() => loginWithRedirect()}
+                onClick={() => loginWithPopup()}
                 className="bg-red-500 my-6 px-3 py-2 rounded-md text-white"
               >
                 Add To Cart

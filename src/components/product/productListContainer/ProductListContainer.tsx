@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from "react";
-import { Header } from "../../header/Header";
+import AddToCart from "../../header/AddToCart";
 import {
   getAddToCartData,
   getProductData,
@@ -8,14 +8,23 @@ import {
 import ProductListPresentation from "./productListPresentation/ProductListPresentation";
 
 const ProductListContainer = (props: any) => {
+ 
+  /** addToCart Length value  */
   const [value, setValue] = useState<any>();
-
+  
+  /** use Reducer for the List product  */
   const dataReducer = (state: any, action: any) => {
     switch (action.type) {
+
+      /** Store the listing data */
       case "STACK_DATA":
         return { ...state, data: state.data.concat(action.data) };
+
+      /** Store the searching data */  
       case "SEARCHING_DATA":
         return { ...state, data: action.data };
+
+      /**  True/False  for the fetching value */  
       case "FETCHING_DATA":
         return { ...state, fetching: action.fetching };
       default:
@@ -23,13 +32,17 @@ const ProductListContainer = (props: any) => {
     }
   };
 
+  /** useReducer hooks concept  */
   const [Data, Dispatch] = useReducer(dataReducer, {
     data: [],
     fetching: true,
   });
 
   useEffect(() => {
+    
     Dispatch({ type: "FETCHING_DATA", fetching: true });
+
+    /**  Listing APL Called */
     getProductData()
       .then((res: any) => {
         let data = res.data;
@@ -40,11 +53,14 @@ const ProductListContainer = (props: any) => {
         Dispatch({ type: "FETCHING_DATA", fetching: false });
         return error;
       });
+
+    /** Get a product listing Length value  */  
     getAddToCartData().then((res: any) => {
       setValue(res.data.length);
     });
   }, [Dispatch]);
 
+  /** searching API Called */
   const searchingValue = (value: any) => {
     searchGetProductData(value).then((res: any) => {
       let data = res.data;
@@ -52,10 +68,10 @@ const ProductListContainer = (props: any) => {
     });
   };
   return (
-    <div>
-      <Header value={value} />
+    <>
+      <AddToCart cartValue={value} />
       <ProductListPresentation Values={Data} searchValue={searchingValue} />
-    </div>
+    </>
   );
 };
 
