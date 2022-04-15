@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { getUser } from "../../service/UserProfileService";
+import { userProfileData, userProfileFormPresenter } from "../userProfileFromPresenter/userProfileFormPresenter";
 
 export const ValidationSchema = Yup.object().shape({
   firstName: Yup.string().trim().required("FirstName is required").nullable(),
@@ -10,6 +11,7 @@ export const ValidationSchema = Yup.object().shape({
   email: Yup.string().trim().required("Email is required."),
 });
 const UserProfileFormPresentation = (props: any) => {
+
   const { user } = useAuth0();
 
   const [name] = useState<any>(user?.nickname?.split("."));
@@ -18,6 +20,7 @@ const UserProfileFormPresentation = (props: any) => {
     lastName: name[1],
     email: user?.email,
   };
+
   const [profile, setProfile] = useState<any>(profileValue);
   const [disable] = useState<any>(true);
 
@@ -33,9 +36,18 @@ const UserProfileFormPresentation = (props: any) => {
       setProfile(res.data[0]);
     });
   }, []);
+
+  useEffect(()=>{
+    /** subscribe the asObservable value pass to  props of userProfileFormContainer */
+    userProfileFormPresenter.userProfile$().subscribe((res)=>{
+      props.updateUser(res);
+    })
+  })
+ 
+  /** userProfileData value passed to presenter */
   const handleSubmit = (values: any) => {
     if (values.id) {
-      props.updateUser(values);
+      userProfileData(values);
     }
   };
 
